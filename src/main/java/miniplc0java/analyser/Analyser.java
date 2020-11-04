@@ -278,11 +278,9 @@ public final class Analyser {
         while (true) {
             // 如果下一个 token 是……
             var peeked = peek();
-            System.out.println(peeked.getTokenType());
             if (peeked.getTokenType() == TokenType.Ident) {
                 // 调用相应的分析函数
                 analyseAssignmentStatement();
-                System.out.println(peeked.getTokenType());
                 // 如果遇到其他非终结符的 FIRST 集呢？
             }else if(peeked.getTokenType()==TokenType.Print){
                 analyseOutputStatement();
@@ -348,7 +346,6 @@ public final class Analyser {
         // 标识符是什么？
         var nameToken=expect(TokenType.Ident);
         String name = (String) nameToken.getValue();
-        System.out.println(name);
         var symbol = symbolTable.get(name);
         if (symbol == null) {
             // 没有这个标识符
@@ -359,19 +356,16 @@ public final class Analyser {
         }
         // 设置符号已初始化
         initializeSymbol(name, nameToken.getStartPos());
-        System.out.println("hallo");
         expect(TokenType.Equal);
         analyseExpression();
         expect(TokenType.Semicolon);
         // 把结果保存
         var offset = getOffset(name, nameToken.getStartPos());
         instructions.add(new Instruction(Operation.STO, offset));
-        System.out.println("cnm");
     }
 
     private void analyseOutputStatement() throws CompileError {
         // 输出语句 -> 'print' '(' 表达式 ')' ';'
-        System.out.println("halll");
         expect(TokenType.Print);
 //        next();
         expect(TokenType.LParen);
