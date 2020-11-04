@@ -58,6 +58,7 @@ public class Tokenizer {
         for(int i=0;i<ans.length();i++){
             if(!Character.isDigit(ans.toCharArray()[i])) throw new TokenizeError(ErrorCode.InvalidInput,pP);
         }
+        System.out.println(ans);
         return new Token(TokenType.Uint,ans,pP,it.currentPos());
     }
 
@@ -81,6 +82,7 @@ public class Tokenizer {
         for(int i=0;i<ans.length();i++){
             if(Character.isWhitespace(ans.toCharArray()[i])) throw new TokenizeError(ErrorCode.InvalidInput,pP);
         }
+        System.out.println(ans);
         switch (ans){
             case "begin":return new Token(TokenType.Begin,ans,pP,it.currentPos());
             case "end":return new Token(TokenType.End,ans,pP,it.currentPos());
@@ -93,6 +95,7 @@ public class Tokenizer {
 
     private Token lexOperatorOrUnknown() throws TokenizeError {
         char c=it.nextChar();
+        System.out.println(c);
         switch (c) {
             case '+':
                 return new Token(TokenType.Plus, '+', it.previousPos(), it.currentPos());
@@ -116,7 +119,6 @@ public class Tokenizer {
             // 填入更多状态和返回语句
             default:
                 // 不认识这个输入，摸了
-                System.out.println(c);
                 throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
         }
     }
